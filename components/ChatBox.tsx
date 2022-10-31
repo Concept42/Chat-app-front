@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef, Dispatch, SetStateAction } from 'react'
 import { Contact, User } from '../lib/Types'
 import Image from 'next/image'
-import { MdOutlineClose } from 'react-icons/Md'
 import ChatInput from './ChatInput'
 import axios from 'axios'
 import { getAllMessagesRoute, sendMessageRoute } from '../lib/APIRoutes'
