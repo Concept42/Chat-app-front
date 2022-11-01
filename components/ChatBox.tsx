@@ -45,6 +45,7 @@ const ChatBox = ({ currentChat, currentUser, socket, setCurrentSelected }: Props
     if (currentUser) {
       socket.current.on('msg-recieve', (msg: string) => {
         setIncMessage({ fromSelf: false, message: msg })
+        console.log('Message:', { msg })
       })
     }
   }, [currentUser, socket])
