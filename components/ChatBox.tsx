@@ -78,13 +78,8 @@ const ChatBox = ({ currentChat, currentUser, socket }: Props) => {
   }, [currentUser, socket]);
 
   useEffect(() => {
-<<<<<<< HEAD
-    incMessage && setMessages((prev) => [...prev, incMessage]);
-  }, [incMessage]);
-=======
     if (incMessage) setMessages((prev) => [...prev, incMessage])
   }, [incMessage])
->>>>>>> a877744 (fixed issues)
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -102,11 +97,7 @@ const ChatBox = ({ currentChat, currentUser, socket }: Props) => {
     if (currentChat) {
       getChatMessesages();
     }
-<<<<<<< HEAD
-  }, [currentChat, currentUser._id]);
-=======
   }, [currentChat, currentUser?._id])
->>>>>>> a877744 (fixed issues)
 
   return (
     <div className="flex flex-col relative overflow-y-scroll">
