@@ -9,24 +9,18 @@ import ChatBox from "../components/ChatBox";
 import { io } from "socket.io-client";
 
 export default function Home() {
-  const [contacts, setContacts] = useState<Contact[]>([]);
-  const [currentUser, setCurrentUser] = useState<User>({
-    _id: "",
-    username: "",
-    password: "",
-    email: "",
-    isAvatarImageSet: false,
-    avatarImage: "",
-  });
-  const [currentChat, setCurrentChat] = useState<Contact>();
-  const [currentSelected, setCurrentSelected] = useState<number | null>(null);
+  const [contacts, setContacts] = useState<Contact[]>([])
+  const [currentUser, setCurrentUser] = useState<User>()
+  const [currentChat, setCurrentChat] = useState<Contact>()
+  const [currentSelected, setCurrentSelected] = useState<number | null>(null)
 
-  const router = useRouter();
-  const socket = useRef<any>();
+  const router = useRouter()
+  const socket = useRef<any>()
 
-  console.log(currentUser);
+  console.log('current socket:', socket.current)
+
   useEffect(() => {
-    const localUser = localStorage.getItem("logged-user");
+    const localUser = localStorage.getItem('logged-user')
     const setLoggedUser = async () => {
       if (typeof localUser === "string") {
         const parse = await JSON.parse(localUser);
@@ -50,7 +44,8 @@ export default function Home() {
       });
       socket.current.emit("add-user", currentUser._id);
     }
-  });
+  }, [currentUser])
+  
   useEffect(() => {
     const getAllUsers = async () => {
       const data = await axios.get(`${allUsersRoute}/${currentUser?._id}`);
