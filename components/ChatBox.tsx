@@ -8,7 +8,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 interface Props {
   currentChat: Contact
-  currentUser: User
+  currentUser: User | undefined
   socket: any
   currentSelected: number | null
   setCurrentSelected: Dispatch<SetStateAction<number | null>>
@@ -19,21 +19,21 @@ interface Message {
   message: string
 }
 
-const ChatBox = ({ currentChat, currentUser, socket, setCurrentSelected }: Props) => {
+const ChatBox = ({ currentChat, currentUser, socket }: Props) => {
   const [messages, setMessages] = useState<Message[]>([])
-  const [incMessage, setIncMessage] = useState<Message>({ fromSelf: false, message: '' })
+  const [incMessage, setIncMessage] = useState<Message>()
 
   const scrollRef = useRef<null | HTMLDivElement>(null)
 
   const handleSendMsg = async (msg: string) => {
     await axios.post(sendMessageRoute, {
-      from: currentUser._id,
+      from: currentUser?._id,
       to: currentChat._id,
       message: msg,
     })
     socket.current.emit('send-msg', {
       to: currentChat._id,
-      from: currentUser._id,
+      from: currentUser?._id,
       message: msg,
     })
     const msgs: Message[] = [...messages]
@@ -50,7 +50,7 @@ const ChatBox = ({ currentChat, currentUser, socket, setCurrentSelected }: Props
   }, [currentUser, socket])
 
   useEffect(() => {
-    incMessage && setMessages((prev) => [...prev, incMessage])
+    if (incMessage) setMessages((prev) => [...prev, incMessage])
   }, [incMessage])
 
   useEffect(() => {
@@ -69,7 +69,7 @@ const ChatBox = ({ currentChat, currentUser, socket, setCurrentSelected }: Props
     if (currentChat) {
       getChatMessesages()
     }
-  }, [currentChat, currentUser._id])
+  }, [currentChat, currentUser?._id])
 
   return (
     <div className='flex flex-col relative overflow-y-scroll'>

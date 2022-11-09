@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 
 interface Props {
   contacts: Contact[]
-  currentUser: User
+  currentUser: User | undefined
   changeChat: (chat: Contact) => void
   currentSelected: number | null
   setCurrentSelected: Dispatch<SetStateAction<number | null>>
@@ -51,9 +51,11 @@ const Contacts = ({ contacts, currentUser, changeChat, currentSelected, setCurre
       </div>
       <div className='flex w-full h-32 justify-center items-center bg-slate-700 gap-10'>
         <div className='ml-5 w-20 h-20 relative '>
-          {currentUser.avatarImage ? <Image alt='avatar' src={currentUser.avatarImage} width={80} height={80} /> : null}
+          {currentUser?.avatarImage ? (
+            <Image alt='avatar' src={currentUser.avatarImage} width={80} height={80} />
+          ) : null}
         </div>
-        <h3 className='text-3xl text-accent'>{currentUser.username}</h3>
+        <h3 className='text-3xl text-accent'>{currentUser?.username}</h3>
         <button
           className='text-white border-2 px-4 py-2 rounded-3xl cursor-pointer border-accent hover:bg-accent'
           onClick={logOut}
